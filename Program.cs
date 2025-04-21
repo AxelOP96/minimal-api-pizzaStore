@@ -1,3 +1,4 @@
+using PizzaStore.DB;
 using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
@@ -15,5 +16,12 @@ if (app.Environment.IsDevelopment())
     });
 }
 app.MapGet("/", () => "Hello World!");
-
+//app.MapGet("/products", () => data);
+//app.MapGet("/products/{id}", (int id) => data.SingleOrDefault(product => product.Id == id));
+//app.MapGet("/product", () => new { id = 1 });
+app.MapGet("/pizzas/{id}", (int id) => PizzaDB.GetPizza(id));
+app.MapGet("/pizzas", () => PizzaDB.GetPizzas());
+app.MapPost("/pizzas", (Pizza pizza) => PizzaDB.CreatePizza(pizza));
+app.MapPut("/pizzas", (Pizza pizza) => PizzaDB.UpdatePizza(pizza));
+app.MapDelete("/pizzas/{id}", (int id) => PizzaDB.RemovePizza(id));
 app.Run();
